@@ -100,7 +100,7 @@ jobs:
       # Your job code here
           command: |
             cd frontend
-            npm install
+            npm i
             npm run test
       - save_cache:
           paths: [frontend/node_modules]
@@ -119,7 +119,7 @@ jobs:
       # Your job code here
           command: |
             cd backend
-            npm install
+            npm i
             npm run test
       - save_cache:
           paths: [backend/node_modules]
