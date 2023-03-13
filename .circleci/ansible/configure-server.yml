@@ -22,9 +22,6 @@
       # Your code here
       command: sudo apt -y install python3
 
-  # Get the environment variables from CircleCI and add to the EC2 instance
-  environment:
-    - TYPEORM_CONNECTION: "{{ lookup('env', 'TYPEORM_CONNECTION')}}"  
     # Add more env vars here
   # Get the environment variables from CircleCI and add to the EC2 instance
   environment:
