@@ -155,7 +155,7 @@ jobs:
           paths: [backend/node_modules]
           key: back-build
 
-  deploy_infrastructure:
+  deploy-infrastructure:
     docker:      # Docker image here that supports AWS CLI
       - image: amazon/aws-cli
     steps:       # Checkout code from git
