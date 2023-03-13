@@ -118,9 +118,9 @@ jobs:
           keys: [backend-build]
       # Your job code here
           command: |
-          cd backend
-          npm install
-          npm run test
+            cd backend
+            npm install
+            npm run test
       - save_cache:
           paths: [backend/node_modules]
           key: back-build
