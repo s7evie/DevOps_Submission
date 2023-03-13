@@ -98,6 +98,7 @@ jobs:
       - restore_cache:
           keys: [frontend-build]
       # Your job code here
+          name: test front-end
           command: |
             cd frontend
             npm i
@@ -117,6 +118,7 @@ jobs:
       - restore_cache:
           keys: [backend-build]
       # Your job code here
+          name: test back-end
           command: |
             cd backend
             npm i
