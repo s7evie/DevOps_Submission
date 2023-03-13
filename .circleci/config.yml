@@ -78,13 +78,13 @@ jobs:
       - restore_cache:
           keys: [backend-build]
       - run:
-          name: Back-end build
+          name: Build back-end
           command: |
-             # Your code here
+            # Your code here
             cd backend
             npm install
             npm run build
-             exit 1
+            exit 1
       - save_cache:
           paths: [backend/node_modules]
           key: backend-build
