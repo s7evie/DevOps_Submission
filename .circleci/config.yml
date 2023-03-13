@@ -243,8 +243,6 @@ jobs:
             #exit 1
       - run:
           name: Send migration results to memstash
-          command: |
-            # Your code here
           command: |   
             if grep -q "has been executed successfully." ~/project/backend/migrations_dump.txt
             then
