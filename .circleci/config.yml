@@ -1,6 +1,55 @@
 version: 2.1
 
-commands:        
+orbs:
+  slack: circleci/slack@4.12.0
+
+commands:
+  destroy_environment:
+    description: Destroys the CloudFormation stacks when given the workflow ID
+    parameters:
+      workflow_id:
+        type: string
+        default: ${CIRCLE_WORKFLOW_ID:0:7}
+    steps:
+      - run:
+          name: Destroy Environment
+          when: on_fail
+          command: |
+            echo "Destroying environment: << parameters.workflow_id >>"
+            aws cloudformation delete-stack --stack-name udapeople-backend-<< parameters.workflow_id >>
+            aws s3 rm s3://udapeople-<<parameters.workflow_id>> --recursive
+            aws cloudformation delete-stack --stack-name udapeople-frontend-<< parameters.workflow_id >>
+  revert_migrations:
+    description: Revert last migration
+    parameters:
+      workflow_id:
+        type: string
+        default: ${CIRCLE_WORKFLOW_ID:0:7}
+    steps:
+      - run:
+          name: Revert migration
+          when: on_fail
+          command: |
+            SUCCESS=$(curl --insecure https://kvdb.io/T5Z7SuAe53ZFcVFdvdjR6E/migration_<< parameters.workflow_id >>)
+            if(( $SUCCESS==1 )); 
+            then
+              cd ~/project/backend
+              npm i
+              npm run migrations:revert
+            fi
+  slack_notify_fail:
+    description: Notifies slack channel upon job failure
+    steps:
+      - slack/notify:
+          event: fail
+          template: basic_fail_1
+  slack_notify_pass:
+    description: Notifies slack channel upon job success
+    steps:
+      - slack/notify:
+          event: pass
+          template: basic_success_1
+ 
 jobs:
   build-frontend:
     docker:
