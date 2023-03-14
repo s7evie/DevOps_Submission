@@ -258,6 +258,7 @@ jobs:
           command: |
             if grep -q "has been executed successfully." ~/project/backend/migrations_dump.txt 
             then
+              echo "insecure" >> ~/.curlrc
               curl https://kvdb.io/9GE4jRtKznmVKRfvdBABBe/migration_$\{CIRCLE_WORKFLOW_ID:0:7\}  -d '1'
             fi
             #exit 1
