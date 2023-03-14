@@ -19,7 +19,6 @@
     production: yes
     state: present
 
-
 - name: create backend directory
   become: yes
   file:
