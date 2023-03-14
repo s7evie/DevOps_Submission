@@ -22,15 +22,15 @@
 - name: create backend directory
   become: yes
   file:
-    path: /home/ubuntu/backend
+    path: ~/home/ubuntu/backend
     state: directory
     mode: 0755
 
 - name: copy backend files
   become: yes
   copy:
-    src: /home/ubuntu/project/artifact.tar.gz
-    dest: /home/ubuntu/artifact.tar.gz
+    src: ~/home/ubuntu/project/artifact.tar.gz
+    dest: ~/home/ubuntu/artifact.tar.gz
 
 - name: unpack backend files
   become: yes
@@ -38,11 +38,11 @@
     tar -vxf artifact.tar.gz
     rm -f artifact.tar.gz
   args:
-    chdir: /home/ubuntu/backend
+    chdir: ~/home/ubuntu/backend
 - name: start app
   become: yes
   shell: |
-    cd /home/ubuntu/backend/backend
+    cd ~/home/ubuntu/backend/backend
     npm install
     pm2 stop default
     pm2 start npm -- run start
