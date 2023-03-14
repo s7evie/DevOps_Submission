@@ -326,7 +326,15 @@ jobs:
           name: Install dependencies
           command: |
             # your code here
-             apk add --update tar gzip ansible aws-cli curl nodejs npm
+            apk update
+            apk add --update ansible
+            apk add --no-cache tar npm gzip curl gcompat
+            apk add --no-cache python3 py3-pip            
+            pip3 install --upgrade pip
+            pip3 install awscli
+            rm -rf /var/cache/apk/*
+            echo "Verify aws cli version"
+            aws --version   
       - run:
           name: Deploy backend
           command: |
@@ -365,4 +373,6 @@ workflows:
       - run-migrations:
           requires: [configure-infrastructure]
       - deploy-frontend:
+          requires: [run-migrations]
+      - deploy-backend:
           requires: [run-migrations]
