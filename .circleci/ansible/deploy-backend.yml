@@ -1,12 +1,71 @@
+Skip to content
+Search or jump to…
+Pulls
+Issues
+Codespaces
+Marketplace
+Explore
+ 
+@s7evie 
+Bhuvanhruday
+/
+cdond-c3-projectstarter
+Public
+forked from udacity/cdond-c3-projectstarter
+Fork your own copy of Bhuvanhruday/cdond-c3-projectstarter
+Code
+Pull requests
+Actions
+Projects
+Security
+Insights
+cdond-c3-projectstarter/.circleci/ansible/deploy-backend.yml
+@Bhuvanhruday
+Bhuvanhruday jupdated keyname in backend yaml
+Latest commit 7c012a7 on May 21, 2022
+ History
+ 2 contributors
+@Bhuvanhruday@bsommardahl
+27 lines (22 sloc)  888 Bytes
+
 ---
 
 - name: "configuration play." 
   hosts: web
   user: ubuntu
-  gather_facts: false
+  gather_facts: false    
   vars:
     - ansible_python_interpreter: /usr/bin/python3
     - ansible_host_key_checking: false
-    - ansible_stdout_callback: yaml
+    - ansible_stdout_callback:   
+
   roles:
-    - deploy
+   - deploy
+
+  environment: 
+      ENVIRONMENT: production     
+      TYPEORM_CONNECTION: "{{ lookup('env', 'TYPEORM_CONNECTION')}}"
+      TYPEORM_DATABASE: "{{ lookup('env', 'TYPEORM_DATABASE')}}"
+      TYPEORM_ENTITIES: "{{ lookup('env', 'TYPEORM_ENTITIES')}}"
+      TYPEORM_HOST: "{{ lookup('env', 'TYPEORM_HOST')}}"
+      TYPEORM_MIGRATIONS: "{{ lookup('env', 'TYPEORM_MIGRATIONS')}}"
+      TYPEORM_MIGRATIONS_DIR: "{{ lookup('env', 'TYPEORM_MIGRATIONS_DIR')}}"
+      TYPEORM_PASSWORD: "{{ lookup('env', 'TYPEORM_PASSWORD')}}"
+      TYPEORM_PORT: "{{ lookup('env', 'TYPEORM_PORT')}}"
+      TYPEORM_USERNAME: "{{ lookup('env', 'TYPEORM_USERNAME')}}"
+
+  
+Footer
+© 2023 GitHub, Inc.
+Footer navigation
+Terms
+Privacy
+Security
+Status
+Docs
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
