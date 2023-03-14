@@ -230,7 +230,7 @@ jobs:
 
   run-migrations:
     docker:
-      - image: circleci/node:13.8.0
+      - image: circleci/node:14.18.1
       # Docker image here that supports NodeJS
     steps:
       # Checkout code from git
@@ -268,7 +268,7 @@ jobs:
 
   deploy-frontend:
     docker:      # Docker image here that supports AWS CLI
-      - image: amazon/aws-cli
+      - image: circleci/node:14.18.1
     steps:
       # Checkout code from git
       - checkout
