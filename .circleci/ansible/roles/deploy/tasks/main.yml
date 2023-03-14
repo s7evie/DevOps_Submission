@@ -39,7 +39,7 @@
     tar -vxf artifact.tar.gz
     rm -f artifact.tar.gz
   args:
-    chdir: /root/backend
+    chdir: ~/backend
 - name: start app
   become: yes
   shell: |
