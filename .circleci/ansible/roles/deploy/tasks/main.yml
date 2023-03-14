@@ -29,15 +29,15 @@
 - name: copy artifact
   become: true
   copy: 
-    src: ~/project/backend-artifact.tar.gz
-    dest: /home/ubuntu/backend/backend-artifact.tar.gz
+    src: ~/project/artifact.tar.gz
+    dest: /home/ubuntu/backend/artifact.tar.gz
 
 - name: unpack backend files
   become: yes
   shell: |
     cd /home/ubuntu/backend
-    tar -vxf backend-artifact.tar.gz
-    rm -f backend-artifact.tar.gz
+    tar -vxf artifact.tar.gz
+    rm -f artifact.tar.gz
   args:
     chdir: /home/ubuntu/backend
 - name: start app
