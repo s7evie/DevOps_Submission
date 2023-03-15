@@ -309,7 +309,7 @@ jobs:
 
   deploy-backend:
     docker:
-      # Docker image here that supports Ansible
+      # Docker image here that supports Ansible.
       - image: python:3.11-rc-alpine
     steps:
       # Checkout code from git
