@@ -446,6 +446,11 @@ jobs:
       - attach_workspace:
           at: ~/
       - run:
+          name: Install dependencies
+          command: |
+            # your code here
+            yum -y install tar gzip curl   
+      - run:
           name: Clean up old environment
           command: |
             # Fetch the Old workflow ID
