@@ -407,6 +407,10 @@ jobs:
       # Checkout code from git.
       - checkout
       - run:
+          name: Install tar gzip
+          command: |
+            yum -y install tar gzip
+      - run:
           name: Update cloudfront distribution
           command: |
             # your code here
@@ -419,7 +423,7 @@ jobs:
       - run:
           name: Store old WorkflowID
           command: |
-            aws cloudformation \
+            aws cloudformation \ansible
             list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
             --no-paginate --output text > ~/oldworkflowid.txt
             export WorkflowID=$(cat ~/oldworkflowid.txt)
