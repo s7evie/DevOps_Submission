@@ -410,7 +410,12 @@ jobs:
           name: Install dependencies
           command: |
             # your code here
-            yum -y install tar gzip curl        
+            sudo apt-get update
+            sudo apt-get upgrade
+            sudo apt-get install -y python3
+            sudo apt-get install -y awscli
+            sudo apt-get install -y tar gzip
+            sudo apt-get install -y curl     
       - run:
           name: Update cloudfront distribution
           command: |
@@ -440,7 +445,7 @@ jobs:
 
   cleanup:
     docker:
-    -  image: amazon/aws-cli
+    - image: circleci/node:14.18.1
     steps:
       - checkout
       - attach_workspace:
@@ -482,6 +487,9 @@ workflows:
           requires: [build-frontend]
       - deploy-infrastructure:
           requires: [test-frontend, test-backend, scan-frontend, scan-backend]
+          filters:
+            branches:
+              only: [test-feature-branch]
       - configure-infrastructure:
           requires: [deploy-infrastructure]
       - run-migrations:
