@@ -404,12 +404,13 @@ jobs:
       # Docker image here that supports AWS CLI
       - image: amazon/aws-cli
     steps:
-      # Checkout code from git.
+      # Checkout code from git
       - checkout
       - run:
-          name: Install tar gzip
+          name: Install dependencies
           command: |
-            yum -y install tar gzip
+            # your code here
+            yum -y install tar gzip curl        
       - run:
           name: Update cloudfront distribution
           command: |
@@ -423,7 +424,7 @@ jobs:
       - run:
           name: Store old WorkflowID
           command: |
-            aws cloudformation \ansible
+            aws cloudformation \
             list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
             --no-paginate --output text > ~/oldworkflowid.txt
             export WorkflowID=$(cat ~/oldworkflowid.txt)
@@ -435,7 +436,6 @@ jobs:
       # Here's where you will add some code to rollback on failure  
       - destroy_environment
       - revert_migrations
-
 
   cleanup:
     docker:
@@ -456,7 +456,7 @@ jobs:
             CurrentWorkflowID=${CIRCLE_WORKFLOW_ID:0:7}
             if [[ "$CurrentWorkflowID" != "${OldWorkflowID}" ]]
             then
-                echo "$OldWorkflowID!=$CurrentWorkflowID => will delete old version"
+                echo "$OldWorkflowID!=$CurrentWorkflowID => Deleting old workflow"
                 aws s3 rm "s3://udapeople-${OldWorkflowID}" --recursive
                 aws cloudformation delete-stack --stack-name "udapeople-backend-${OldWorkflowID}"
                 aws cloudformation delete-stack --stack-name "udapeople-frontend-${OldWorkflowID}"
