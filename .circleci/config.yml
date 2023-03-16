@@ -410,12 +410,7 @@ jobs:
           name: Install dependencies
           command: |
             # your code here
-            sudo apt-get update
-            sudo apt-get upgrade
-            sudo apt-get install -y python3
-            sudo apt-get install -y awscli
-            sudo apt-get install -y tar gzip
-            sudo apt-get install -y curl     
+            yum -y install tar gzip curl  
       - run:
           name: Update cloudfront distribution
           command: |
