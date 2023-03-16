@@ -447,7 +447,12 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            apk add --update tar gzip ansible aws-cli curl
+            # your code here
+            sudo apt-get update
+            sudo apt-get upgrade
+            sudo apt-get install -y awscli
+            sudo apt-get install -y tar gzip
+            sudo apt-get install -y curl
       - run:
           name: Clean up old environment
           command: |
