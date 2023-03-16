@@ -441,7 +441,6 @@ jobs:
   cleanup:
     docker:
     -  image: amazon/aws-cli
-    resource_class: medium
     steps:
       - checkout
       - attach_workspace:
