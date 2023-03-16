@@ -404,13 +404,8 @@ jobs:
       # Docker image here that supports AWS CLI
       - image: amazon/aws-cli
     steps:
-      # Checkout code from git
+      # Checkout code from git.
       - checkout
-      - run:
-          name: Install dependencies
-          command: |
-            # your code here
-            yum -y install tar gzip curl  
       - run:
           name: Update cloudfront distribution
           command: |
