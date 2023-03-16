@@ -446,7 +446,10 @@ jobs:
       - checkout
       - attach_workspace:
         at: ~/
-      - run: yum install -y tar gzip
+      - run: 
+          name: install deps
+          command: |
+            yum install -y tar gzip
       - run:
           name: Clean up old environment
           command: |
