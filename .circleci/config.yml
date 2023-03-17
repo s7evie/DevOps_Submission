@@ -448,6 +448,11 @@ jobs:
       - attach_workspace:
           at: ~/
       - run:
+          name: Install dependencies
+          command: |
+            # your code here
+            yum -y install tar gzip curl
+      - run:
           name: Get old stack workflow id
           command: |
             export STACKS=($(aws cloudformation list-stacks --query "stackSummaries[*].StackName" \
