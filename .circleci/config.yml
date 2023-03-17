@@ -402,7 +402,7 @@ jobs:
   cloudfront-update:
     docker:
       # Docker image here that supports AWS CLI
-      - image: amazon/aws-cli
+      - image: amazon/aws-cli:latest
     steps:
       # Checkout code from git
       - checkout
@@ -416,7 +416,6 @@ jobs:
           command: |
             export OldWorkflowID=$(aws cloudformation list-exports \
             --query "Exports[?Name=='WorkflowID'].Value" --no-paginate --output text)
-            
             echo "OldWorkflowID: ${OldWorkflowID}"
             echo "Stack names: ${STACKS[@]}"
             echo ${OldWorkflowID} >> OldWorkflowID.txt
