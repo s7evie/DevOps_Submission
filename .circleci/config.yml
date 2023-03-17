@@ -432,7 +432,7 @@ jobs:
       - persist_to_workspace:
           root: ~/
           paths:
-            - oldworkflowid.txt
+            - project/oldworkflowid.txt
       # Here's where you will add some code to rollback on failure
       - destroy_environment
       - revert_migrations
@@ -456,10 +456,12 @@ jobs:
       - run:
           name: Remove old stacks and files
           command: |
-            if [[ "${STACKS[@]}" =~ "${WorkflowID}" ]]
+            export OldWorkflowID=$(cat OldWorkflowID.txt)
+            if [[ "${CIRCLE_WORKFLOW_ID:0:7}" !~ "${OldWorkflowID}" ]]
             then
             # your code here
-            aws s3 rm "s3://udapeople-${WorkflowID}" --recursive
+            echo "Found stacks with: ${OldWorkflowID}"
+            aws s3 rm "s3://udapeople-${OldWorkflowID}" --recursive
             aws cloudformation delete-stack --stack-name "udapeople-backend-${OldWorkflowID}" --recursive
             aws cloudformation delete-stack --stack-name "udapeople-frontend-${OldWorkflowID}" --recursive
             else
