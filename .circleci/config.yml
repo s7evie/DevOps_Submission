@@ -412,6 +412,15 @@ jobs:
             # your code here
             yum -y install tar gzip curl
       - run:
+          name: Store old WorkflowID
+          command: |
+            export OldWorkflowID=$(aws cloudformation list-exports \
+            --query "Exports[?Name=='WorkflowID'].Value" --no-paginate --output text)
+            
+            echo "OldWorkflowID: ${OldWorkflowID}"
+            echo "Stack names: ${STACKS[@]}"
+            echo ${OldWorkflowID} >> OldWorkflowID.txt
+      - run:
           name: Update cloudfront distribution
           command: |
             # your code here
@@ -421,14 +430,6 @@ jobs:
             --stack-name InitialStack \
             --parameter-overrides WorkflowID="udapeople-${CIRCLE_WORKFLOW_ID:0:7}" \
             --tags project=udapeople
-      - run:
-          name: Store old WorkflowID
-          command: |
-            aws cloudformation \
-            list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
-            --no-paginate --output text > ~/oldworkflowid.txt
-            export WorkflowID=$(cat ~/oldworkflowid.txt)
-            echo WorkflowID: "$WorkflowID"
       - persist_to_workspace:
           root: ~/
           paths:
