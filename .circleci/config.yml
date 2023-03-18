@@ -385,7 +385,7 @@ jobs:
       - run:
           name: Frontend smoke test.
           command: |
-            # your code here.
+            # your code here
             URL="http://udapeople-${CIRCLE_WORKFLOW_ID:0:7}.s3-website-us-east-1.amazonaws.com/#/employees"            
             echo ${URL} 
             if curl -s ${URL} | grep "Welcome"
@@ -395,7 +395,7 @@ jobs:
             else
               return 1
             fi
-      # Here's where you will add some code to rollback on failure...
+      # Here's where you will add some code to rollback on failure..
       - destroy_environment
       - revert_migrations
 
@@ -479,9 +479,9 @@ workflows:
           requires: [build-frontend]
       - deploy-infrastructure:
           requires: [test-frontend, test-backend, scan-frontend, scan-backend]
-          filters:
-            branches:
-              only: [master]
+          # filters:
+          #   branches:
+          #     only: [main]
       - configure-infrastructure:
           requires: [deploy-infrastructure]
       - run-migrations:
