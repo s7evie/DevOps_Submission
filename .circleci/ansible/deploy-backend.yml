@@ -11,6 +11,7 @@
 
   roles:
    - deploy
+   - configure-prometheus-node-exporter
 
   environment: 
       ENVIRONMENT: production     
