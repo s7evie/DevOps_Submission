@@ -183,7 +183,7 @@ jobs:
               --tags project=udapeople
       - run:
           name: Add back-end ip to ansible inventory
-            # Your code here 20/03, added restriction into tag value as not to call in prometheus servers
+            # Your code here 20/03, added restriction into tag value as not to call in prometheus servers.
           command: |
             aws ec2 describe-instances \
               --filter Name=tag-value,Values=udapeople \
