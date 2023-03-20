@@ -186,7 +186,7 @@ jobs:
             # Your code here 20/03, added restriction into tag value as not to call in prometheus servers
           command: |
             aws ec2 describe-instances \
-              --filter Name=tag-value,Values="udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}"
+              --filter Name=tag-value,Values=udapeople \
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
                --output text >> .circleci/ansible/inventory.txt
                cat .circleci/ansible/inventory.txt
