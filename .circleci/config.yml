@@ -187,7 +187,8 @@ jobs:
           command: |
             aws ec2 describe-instances \
               --filter "Name=tag-value,Values=udapeople" 
-              --query 'Reservations[*].Instances[*].PublicIpAddress'
+              --query 'Reservations[*].Instances[*].PublicIpAddress' \
+               --output text >> .circleci/ansible/inventory.txt
             # aws ec2 describe-instances \
             #   --query 'Reservations[*].Instances[*].PublicIpAddress' \
             #   --output text >> .circleci/ansible/inventory.txt
