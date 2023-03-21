@@ -239,7 +239,7 @@ jobs:
 
   run-migrations:
     docker:
-      - image: circleci/node:14.18.1
+      - image: circleci/node
       # Docker image here that supports NodeJS
     steps:
       # Checkout code from git
