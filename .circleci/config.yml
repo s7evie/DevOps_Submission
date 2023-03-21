@@ -32,9 +32,10 @@ commands:
           when: on_fail
           command: |
             # SUCCESS=$(curl --insecure https://kvdb.io/9GUkdnECuy153GqG81x7yZ/migration_<< parameters.workflow_id >>)
-            SUCCESS=$(curl --insecure https://kvdb.io/9GUkdnECuy153GqG81x7yZ/migration_$CIRCLE_WORKFLOW_ID:0:7)
+            # SUCCESS=$(curl --insecure https://kvdb.io/9GUkdnECuy153GqG81x7yZ/migration_$CIRCLE_WORKFLOW_ID:0:7)
             # SUCCESS=$(curl --insecure https://kvdb.io/9GUkdnECuy153GqG81x7yZ/migration_s7evie)
-            if(( $SUCCESS==1 ));
+            # if(( $SUCCESS==1 ));
+            if(( curl --insecure https://kvdb.io/9GUkdnECuy153GqG81x7yZ/migration_$CIRCLE_WORKFLOW_ID:0:7 == 1 ));
             then
               echo "curl result = {$SUCCESS}"
               cd ~/project/backend
@@ -270,8 +271,8 @@ jobs:
           command: |
             if grep -q "has been executed successfully." ~/project/backend/migrations_dump.txt 
             then
-              # echo "insecure" >> ~/.curlrc
-              curl https://kvdb.io/9GUkdnECuy153GqG81x7yZ/migration_s7evie -d '1'
+             echo "insecure" >> ~/.curlrc
+              curl https://kvdb.io/9GUkdnECuy153GqG81x7yZ/migration_${CIRCLE_WORKFLOW_ID:0:7} -d '1'
             else
               echo "there was an issue with execution"
             fi
