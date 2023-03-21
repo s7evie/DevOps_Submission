@@ -36,6 +36,7 @@ commands:
             echo "The value of curl is $SUCCESS"
             if [ "$SUCCESS" -eq "1" ]; 
             then
+               cd ~/project/backend
                npm run migrations:revert
             fi
 
