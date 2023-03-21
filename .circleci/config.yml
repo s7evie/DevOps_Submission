@@ -48,6 +48,8 @@ commands:
 
   revert_migrations:
       description: Revert the last migration
+      docker:
+        - image: circleci/node:13.8.0
       parameters:
           workflow_id:
               type: string      
@@ -57,9 +59,9 @@ commands:
               name: Revert migration
               when: on_fail
               command: |
-                      cd ~/project/backend
-                      npm i 
                       
+                      cd ~/project/backend
+                      npm i
                       npm run migrations:revert
 
   slack_notify_fail:
@@ -274,7 +276,7 @@ jobs:
           command: |
             pwd
             ls -l
-            cd backend
+            # cd backend
             npm install
             npm run build
             npm run migrations:revert
@@ -291,7 +293,7 @@ jobs:
             then
             #  echo "insecure" >> ~/.curlrc
             echo "The Migration Was Successful!!"
-              curl https://kvdb.io/9GUkdnECuy153GqG81x7yZ/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
+              curl https://kvdb.io/9GUkdnECuy153GqG81x7yZ/migration_$\{CIRCLE_WORKFLOW_ID:0:7\}  -d '1'
             else
               echo "there was an issue with execution"
             fi
