@@ -20,31 +20,46 @@ commands:
             aws s3 rm s3://udapeople-<<parameters.workflow_id>> --recursive
             aws cloudformation delete-stack --stack-name udapeople-frontend-<< parameters.workflow_id >>
 
-  revert_migrations:
-    description: Revert last migration
-    parameters:
-      workflow_id:
-        type: string
-        default: ${CIRCLE_WORKFLOW_ID:0:7}
-    steps:
-      - run:
-          name: Revert migration
-          when: on_fail
-          command: |
-            # SUCCESS=$(curl --insecure https://kvdb.io/9GUkdnECuy153GqG81x7yZ/migration_<< parameters.workflow_id >>)
-            # SUCCESS=$(curl --insecure https://kvdb.io/9GUkdnECuy153GqG81x7yZ/migration_$CIRCLE_WORKFLOW_ID:0:7)
-            # SUCCESS=$(curl --insecure https://kvdb.io/9GUkdnECuy153GqG81x7yZ/migration_s7evie)
-            # if(( $SUCCESS==1 ));
-            if(( curl --insecure https://kvdb.io/9GUkdnECuy153GqG81x7yZ/migration_$CIRCLE_WORKFLOW_ID:0:7 == 1 ));
-            then
-              echo "curl result = {$SUCCESS}"
-              cd ~/project/backend
-              npm i
-              npm run migrations:revert
-            else
-              echo "curl result = {$SUCCESS}"
-              echo "kvdb returned a 0 or null response.  revert not executed"
-            fi
+  # revert_migrations:
+  #   description: Revert last migration
+  #   parameters:
+  #     workflow_id:
+  #       type: string
+  #       default: ${CIRCLE_WORKFLOW_ID:0:7}
+  #   steps:
+  #     - run:
+  #         name: Revert migration
+  #         when: on_fail
+  #         command: |
+  #           # SUCCESS=$(curl --insecure https://kvdb.io/9GUkdnECuy153GqG81x7yZ/migration_<< parameters.workflow_id >>)
+  #           # SUCCESS=$(curl --insecure https://kvdb.io/9GUkdnECuy153GqG81x7yZ/migration_$CIRCLE_WORKFLOW_ID:0:7)
+  #           # SUCCESS=$(curl --insecure https://kvdb.io/9GUkdnECuy153GqG81x7yZ/migration_s7evie)
+  #           # if(( $SUCCESS==1 ));
+  #           if(( curl --insecure https://kvdb.io/9GUkdnECuy153GqG81x7yZ/migration_$CIRCLE_WORKFLOW_ID:0:7 == 1 ));
+  #           then
+  #             echo "curl result = {$SUCCESS}"
+  #             cd ~/project/backend
+  #             npm i
+  #             npm run migrations:revert
+  #           else
+  #             echo "curl result = {$SUCCESS}"
+  #             echo "kvdb returned a 0 or null response.  revert not executed"
+  #           fi
+  #         commands:
+  revert-migrations:
+      description: Revert the last migration
+      parameters:
+          workflow_id:
+              type: string      
+      steps:
+          - run:
+              name: Revert migrations
+              when: on_fail
+              command: |
+                      cd ~/project/backend
+                      npm i 
+                      
+                      npm run migrations:revert
 
   slack_notify_fail:
     description: Notifies slack channel upon job failure
@@ -271,8 +286,8 @@ jobs:
           command: |
             if grep -q "has been executed successfully." ~/project/backend/migrations_dump.txt 
             then
-             echo "insecure" >> ~/.curlrc
-              curl https://kvdb.io/9GUkdnECuy153GqG81x7yZ/migration_${CIRCLE_WORKFLOW_ID:0:7} -d '1'
+            #  echo "insecure" >> ~/.curlrc
+              curl https://kvdb.io/9GUkdnECuy153GqG81x7yZ/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
             else
               echo "there was an issue with execution"
             fi
