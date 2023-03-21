@@ -31,10 +31,11 @@ commands:
           name: Revert migration
           when: on_fail
           command: |
-            SUCCESS=$(curl --insecure https://kvdb.io/9GUkdnECuy153GqG81x7yZ/migration_<< parameters.workflow_id >>)
+            # SUCCESS=$(curl --insecure https://kvdb.io/9GUkdnECuy153GqG81x7yZ/migration_<< parameters.workflow_id >>)
+            SUCCESS=$(curl --insecure https://kvdb.io/9GUkdnECuy153GqG81x7yZ/migration_s7evie)
             if(( $SUCCESS==1 ));
-            echo "curl result = {$SUCCESS}" 
             then
+              echo "curl result = {$SUCCESS}" 
               cd ~/project/backend
               npm i
               npm run migrations:revert
@@ -268,7 +269,7 @@ jobs:
             if grep -q "has been executed successfully." ~/project/backend/migrations_dump.txt 
             then
               # echo "insecure" >> ~/.curlrc
-              curl https://kvdb.io/9GUkdnECuy153GqG81x7yZ/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
+              curl https://kvdb.io/9GUkdnECuy153GqG81x7yZ/migration_s7evie -d '1'
             else
               echo "there was an issue with execution"
             fi
