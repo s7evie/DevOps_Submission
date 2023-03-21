@@ -41,7 +41,8 @@ commands:
               npm i
               npm run migrations:revert
             else
-              echo "No action required"
+              echo "curl result = {$SUCCESS}"
+              echo "kvdb returned a 0 or null response.  revert not executed"
             fi
 
   slack_notify_fail:
