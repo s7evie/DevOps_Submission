@@ -20,25 +20,46 @@ commands:
             aws s3 rm s3://udapeople-<<parameters.workflow_id>> --recursive
             aws cloudformation delete-stack --stack-name udapeople-frontend-<< parameters.workflow_id >>
 
+  # revert_migrations:
+  #   description: Revert last migration
+  #   parameters:
+  #     workflow_id:
+  #       type: string
+  #       default: ${CIRCLE_WORKFLOW_ID:0:7}
+  #   steps:
+  #     - run:
+  #         name: Revert migration
+  #         when: on_fail
+  #         command: |
+  #           echo "the workflow id is << parameters.workflow_id >>"
+  #           SUCCESS=$(curl --insecure https://kvdb.io/JcSiLWzfckiZBMA8cNXCeV/migration_<< parameters.workflow_id >>)
+  #           echo "The value of curl is $SUCCESS"
+  #           if [ "$SUCCESS" -eq "1" ]; 
+  #           then
+  #              cd ~/project/backend
+  #              npm run migrations:revert
+  #           fi
+
   revert_migrations:
-    description: Revert last migration
+    description: Revert the last migration
     parameters:
       workflow_id:
         type: string
-        default: ${CIRCLE_WORKFLOW_ID:0:7}
     steps:
       - run:
-          name: Revert migration
+          name: Revert migrations
           when: on_fail
           command: |
-            echo "the workflow id is << parameters.workflow_id >>"
+            # Your Memstash or kvdb.io GET URL code goes here
+            # Example: kvdb.io
             SUCCESS=$(curl --insecure https://kvdb.io/JcSiLWzfckiZBMA8cNXCeV/migration_<< parameters.workflow_id >>)
             echo "The value of curl is $SUCCESS"
             if [ "$SUCCESS" -eq "1" ]; 
             then
-               cd ~/project/backend
-               npm run migrations:revert
-            fi
+              cd ~/project/backend
+              npm install
+              npm run migration:revert
+            fi  
 
   slack_notify_fail:
     description: Notifies slack channel upon job failure
