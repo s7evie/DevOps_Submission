@@ -342,8 +342,12 @@ jobs:
       - checkout
       # Add ssh keys with fingerprint
       - add_ssh_keys:
-          fingerprints: ["17:97:ad:72:5f:9b:89:92:f1:ab:9d:35:3c:45:2d:c4"]
-
+          fingerprints: ["17:97:ad:72:5f:9b:89:92:f1:ab:9d:35:3c:45:2d:c4"]      
+      # attach workspace
+      - attach_workspace:
+          at: ~/
+#      - restore_cache:
+#          keys: [backend-build]
       - run:
           name: Install dependencies
           command: |
@@ -351,12 +355,12 @@ jobs:
             apk update
             apk add --update ansible
             apk add --no-cache tar npm gzip curl gcompat
-            apk add --no-cache python3 py3-pip
+            apk add --no-cache python3 py3-pip            
             pip3 install --upgrade pip
             pip3 install awscli
             rm -rf /var/cache/apk/*
             echo "Verify aws cli version"
-            aws --version
+            aws --version   
       - run:
           name: Deploy backend
           command: |
@@ -368,7 +372,7 @@ jobs:
             # Zip the directory
             tar -C backend -czvf artifact.tar.gz .
             cd .circleci/ansible
-            echo "Contents of the inventory.txt file is as follows:"
+            echo "Contents  of the inventory.txt file is as follows:"
             cat inventory.txt
             ansible-playbook -i inventory.txt deploy-backend.yml
       # Here's where you will add some code to rollback on failures 
