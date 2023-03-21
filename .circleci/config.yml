@@ -36,7 +36,7 @@ commands:
             echo "The value of curl is $SUCCESS"
             if [ "$SUCCESS" -eq "1" ]; 
             then
-               yum install -y tar gzip ansible npm
+               yum install -y nodejs npm
                cd ~/project/backend
                npm run migrations:revert
             fi
@@ -334,12 +334,12 @@ jobs:
             apk update
             apk add --update ansible
             apk add --no-cache tar npm gzip curl gcompat
-            apk add --no-cache python3 py3-pip            
+            apk add --no-cache python3 py3-pip
             pip3 install --upgrade pip
             pip3 install awscli
             rm -rf /var/cache/apk/*
             echo "Verify aws cli version"
-            aws --version   
+            aws --version
       - run:
           name: Deploy backend
           command: |
@@ -361,14 +361,18 @@ jobs:
   smoke-test:
     docker:
       # Lightweight Docker image 
-      - image: amazon/aws-cli:latest
+      - image: circleci/node:14.18.1
     steps:
       # Checkout code from git
       - checkout
       - run:
           name: Install dependencies
           command: |
-            yum install nodejs npm
+            pwd
+            ls -l
+            cd backend
+            npm install
+            npm run migrations:revert
           #  exit 1.
       - run:
           name: Backend smoke test
