@@ -30,7 +30,7 @@ commands:
           name: Revert migration
           when: on_fail
           command: |
-            SUCCESS=$(curl --insecure https://kvdb.io/9GUkdnECuy153GqG81x7yZ/migration_<< parameters.workflow_id >>)
+            SUCCESS=$(curl --insecure https://kvdb.io/JcSiLWzfckiZBMA8cNXCeV/migration_<< parameters.workflow_id >>)
             if(( $SUCCESS==1 )); 
             then
               cd ~/project/backend
@@ -264,8 +264,7 @@ jobs:
             if grep -q "has been executed successfully." ~/project/backend/migrations_dump.txt 
             then
               echo "insecure" >> ~/.curlrc
-              curl https://kvdb.io/9GUkdnECuy153GqG81x7yZ/migration_{CIRCLE_WORKFLOW_ID:0:7}  -d '1'
-              /migration_${CIRCLE_WORKFLOW_ID:0:7}
+              curl https://kvdb.io/JcSiLWzfckiZBMA8cNXCeV/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
             fi
             #exit 1
      # Here's where you will add some code to rollback on failure    
