@@ -261,11 +261,10 @@ jobs:
       - run:
           name: Send migration output to kvdb.io
           command: |
-            cat ~/migrations_dump.txt
-            if grep -q "has been executed successfully." ~/migrations_dump.txt
+            if grep -q "has been executed successfully." ~/project/backend/migrations_dump.txt 
             then
-              curl -k https://kvdb.io/9GUkdnECuy153GqG81x7yZ/migration_$\{CIRCLE_WORKFLOW_ID:0:7\} -d '1'
-              # sudo rm migrations_dump.txt
+              echo "insecure" >> ~/.curlrc
+              curl https://kvdb.io/T5Z7SuAe53ZFcVFdvdjR6E/migration_$\{CIRCLE_WORKFLOW_ID:0:7\}  -d '1'
             fi
             #exit 1
      # Here's where you will add some code to rollback on failure    
