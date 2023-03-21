@@ -361,7 +361,7 @@ jobs:
   smoke-test:
     docker:
       # Lightweight Docker image 
-      - image: circleci/aws-cli
+      - image: amazon/aws-cli
     steps:
       # Checkout code from git
       - checkout
