@@ -360,14 +360,14 @@ jobs:
   smoke-test:
     docker:
       # Lightweight Docker image 
-      - image: python:3.11-rc-alpine
+      - image: amazon/aws-cli:latest
     steps:
       # Checkout code from git
       - checkout
       - run:
           name: Install dependencies
           command: |
-            apk add --update tar gzip ansible aws-cli curl npm
+            yum install -y tar gzip ansible npm
           #  exit 1
       - run:
           name: Backend smoke test
