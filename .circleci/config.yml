@@ -32,7 +32,8 @@ commands:
           when: on_fail
           command: |
             SUCCESS=$(curl --insecure https://kvdb.io/T5Z7SuAe53ZFcVFdvdjR6E/migration_<< parameters.workflow_id >>)
-            if(( $SUCCESS==1 )); 
+            if(( $SUCCESS==1 ));
+            echo "curl result = {$SUCCESS}" 
             then
               cd ~/project/backend
               npm i
