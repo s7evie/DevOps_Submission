@@ -368,10 +368,8 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            pwd
-            ls -l
+            sudo apt-get install -y awscli
             cd backend
-            apt-get install -y awscli
             npm install
             npm run migrations:revert
           #  exit 1.
