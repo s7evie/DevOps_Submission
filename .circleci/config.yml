@@ -33,13 +33,10 @@ commands:
           command: |
             echo "the workflow id is << parameters.workflow_id >>"
             SUCCESS=$(curl --insecure https://kvdb.io/JcSiLWzfckiZBMA8cNXCeV/migration_<< parameters.workflow_id >>)
+            echo "The value of curl is $SUCCESS"
             if [ "$SUCCESS" -eq "1" ]; 
             then
-              pwd
-              ls -l
-              cd backend
-              npm install
-              npm run migrations:revert
+               npm run migrations:revert
             fi
 
   slack_notify_fail:
