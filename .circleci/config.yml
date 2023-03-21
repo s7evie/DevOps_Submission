@@ -36,6 +36,7 @@ commands:
             echo "The value of curl is $SUCCESS"
             if [ "$SUCCESS" -eq "1" ]; 
             then
+               sudo apt install npm
                npm run migrations:revert
             fi
 
@@ -236,7 +237,7 @@ jobs:
 
   run-migrations:
     docker:
-      - image: circleci/node
+      - image: circleci/node:14.18.1
       # Docker image here that supports NodeJS
     steps:
       # Checkout code from git
