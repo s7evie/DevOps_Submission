@@ -9,13 +9,12 @@ commands:
     description: Destroys the CloudFormation stacks when given the workflow ID
     docker:
     - image: amazon/aws-cli:latest
-    steps:
-      - checkout
     parameters:
       workflow_id:
         type: string
         default: ${CIRCLE_WORKFLOW_ID:0:7}
     steps:
+      - checkout
       - run:
           name: Destroy Environment
           when: on_fail
