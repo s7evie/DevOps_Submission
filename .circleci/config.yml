@@ -45,8 +45,8 @@ commands:
   #             echo "curl result = {$SUCCESS}"
   #             echo "kvdb returned a 0 or null response.  revert not executed"
   #           fi
-  #         commands:
-  revert-migrations:
+
+  revert_migrations:
       description: Revert the last migration
       parameters:
           workflow_id:
