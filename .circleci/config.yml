@@ -36,7 +36,6 @@ commands:
             echo "The value of curl is $SUCCESS"
             if [ "$SUCCESS" -eq "1" ]; 
             then
-               yum install -y nodejs npm
                cd ~/project/backend
                npm run migrations:revert
             fi
@@ -361,15 +360,17 @@ jobs:
   smoke-test:
     docker:
       # Lightweight Docker image 
-      - image: amazon/aws-cli
+      - image: circleci/node:14.18.1
     steps:
       # Checkout code from git
       - checkout
       - run:
           name: Install dependencies
-          command: |
-            apt update
+          command: |                        
+            sudo apt-get update
+            sudo apt-get upgrade
             sudo apt-get install nodejs npm -y
+            sudo apt-get install -y awscli
             cd backend
             npm install
             npm run migrations:revert
