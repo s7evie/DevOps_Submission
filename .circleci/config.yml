@@ -31,10 +31,11 @@ commands:
           name: Revert migration
           when: on_fail
           command: |
+            echo "the workflow id is << parameters.workflow_id >>"
             SUCCESS=$(curl --insecure https://kvdb.io/JcSiLWzfckiZBMA8cNXCeV/migration_<< parameters.workflow_id >>)
             if(( $SUCCESS==1 )); 
             then
-              cd ~/project/backend
+              cd backend
               npm i
               npm run migrations:revert
             fi
