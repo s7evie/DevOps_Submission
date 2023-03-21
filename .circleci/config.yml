@@ -19,7 +19,6 @@ commands:
             aws cloudformation delete-stack --stack-name udapeople-backend-<< parameters.workflow_id >>
             aws s3 rm s3://udapeople-<<parameters.workflow_id>> --recursive
             aws cloudformation delete-stack --stack-name udapeople-frontend-<< parameters.workflow_id >>
-
   revert_migrations:
     description: Revert last migration
     parameters:
@@ -31,18 +30,12 @@ commands:
           name: Revert migration
           when: on_fail
           command: |
-            SUCCESS=$(curl --insecure https://kvdb.io/9GUkdnECuy153GqG81x7yZ/migration_<< parameters.workflow_id >>)
-            # SUCCESS=$(curl --insecure https://kvdb.io/9GUkdnECuy153GqG81x7yZ/migration_$CIRCLE_WORKFLOW_ID:0:7)
-            # SUCCESS=$(curl --insecure https://kvdb.io/9GUkdnECuy153GqG81x7yZ/migration_s7evie)
-            if(( $SUCCESS==1 ));
+            SUCCESS=$(curl --insecure https://kvdb.io/T5Z7SuAe53ZFcVFdvdjR6E/migration_<< parameters.workflow_id >>)
+            if(( $SUCCESS==1 )); 
             then
-              echo "curl result = {$SUCCESS}"
               cd ~/project/backend
               npm i
               npm run migrations:revert
-            else
-              echo "curl result = {$SUCCESS}"
-              echo "kvdb returned a 0 or null response.  revert not executed"
             fi
 
   slack_notify_fail:
@@ -257,14 +250,12 @@ jobs:
           command: |
             pwd
             ls -l
-            # cd backend
+            cd backend
             npm install
             npm run build
             npm run migrations:revert
             # Run and save the migration output
             npm run migrations > migrations_dump.txt
-
-            echo "Outputting content of the migrations_dump.txt file"
             cat migrations_dump.txt
             #exit 1
       - run:
@@ -272,11 +263,8 @@ jobs:
           command: |
             if grep -q "has been executed successfully." ~/project/backend/migrations_dump.txt 
             then
-            #  echo "insecure" >> ~/.curlrc
-            echo "The Migration Was Successful!!"
-              curl https://kvdb.io/9GUkdnECuy153GqG81x7yZ/migration_$\{CIRCLE_WORKFLOW_ID:0:7\}  -d '1'
-            else
-              echo "there was an issue with execution"
+              echo "insecure" >> ~/.curlrc
+              curl https://kvdb.io/T5Z7SuAe53ZFcVFdvdjR6E/migration_$\{CIRCLE_WORKFLOW_ID:0:7\}  -d '1'
             fi
             #exit 1
      # Here's where you will add some code to rollback on failure    
@@ -407,7 +395,7 @@ jobs:
             if curl -s ${URL} | grep "Welcome"
             then
               # Change this to 0 after the job fails
-              return 1
+              return 0
             else
               return 1
             fi
@@ -467,13 +455,13 @@ jobs:
             echo Stack names= "${STACKS[@]}"
             if [[ "${CIRCLE_WORKFLOW_ID:0:7}" != "${OldWorkflowID:0:7}" ]]
             then
-              echo "Commence cleanup of S3 & cloudformation stacks"
+              echo "Commence Cleanup"
               echo bucket= "s3://udapeople-${OldWorkflowID:10:17}"
               aws s3 rb "s3://udapeople-${OldWorkflowID:10:17}" --force
               aws cloudformation delete-stack --stack-name "udapeople-backend-${OldWorkflowID:10:17}"
               aws cloudformation delete-stack --stack-name "udapeople-frontend-${OldWorkflowID:10:17}"
             else
-              echo "no action required"
+              echo "No cleanup required"
             fi
 
 workflows:
