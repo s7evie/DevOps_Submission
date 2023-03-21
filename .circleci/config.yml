@@ -59,7 +59,7 @@ commands:
             then
               cd ~/project/backend
               npm install
-              npm run migration:revert
+              npm run migrations:revert
             fi  
 
   slack_notify_fail:
@@ -382,13 +382,11 @@ jobs:
     steps:
       # Checkout code from git
       - checkout
-      # attach workspace
-      - attach_workspace:
-          at: ~/
       - run:
           name: Install dependencies
           command: |
-            apk add --update npm aws-cli curl
+            apk add --update tar gzip curl nodejs npm
+            pip install awscli
           #  exit 1.
       - run:
           name: Backend smoke test
