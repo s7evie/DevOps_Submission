@@ -33,7 +33,7 @@ commands:
           command: |
             echo "the workflow id is << parameters.workflow_id >>"
             SUCCESS=$(curl --insecure https://kvdb.io/JcSiLWzfckiZBMA8cNXCeV/migration_<< parameters.workflow_id >>)
-            if(( $SUCCESS==1 )); 
+            if [ "$SUCCESS" -eq "1" ]; 
             then
               cd backend
               npm i
