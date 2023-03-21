@@ -368,7 +368,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            sudo yum install nodejs npm
+            yum install nodejs npm
           #  exit 1.
       - run:
           name: Backend smoke test
