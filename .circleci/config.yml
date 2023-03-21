@@ -19,6 +19,7 @@ commands:
             aws cloudformation delete-stack --stack-name udapeople-backend-<< parameters.workflow_id >>
             aws s3 rm s3://udapeople-<<parameters.workflow_id>> --recursive
             aws cloudformation delete-stack --stack-name udapeople-frontend-<< parameters.workflow_id >>
+
   revert_migrations:
     description: Revert last migration
     parameters:
@@ -36,6 +37,8 @@ commands:
               cd ~/project/backend
               npm i
               npm run migrations:revert
+            else
+              echo "No action required"
             fi
 
   slack_notify_fail:
@@ -382,7 +385,7 @@ jobs:
             echo "${API_URL}"
             if curl "${API_URL}/api/status" | grep "ok"
             then
-                return 1
+                return 0
             else
                 return 1
             fi
@@ -395,7 +398,7 @@ jobs:
             if curl -s ${URL} | grep "Welcome"
             then
               # Change this to 0 after the job fails
-              return 0
+              return 1
             else
               return 1
             fi
@@ -455,13 +458,13 @@ jobs:
             echo Stack names= "${STACKS[@]}"
             if [[ "${CIRCLE_WORKFLOW_ID:0:7}" != "${OldWorkflowID:0:7}" ]]
             then
-              echo "cleaning up ............."
+              echo "Commence cleanup of S3 & cloudformation stacks"
               echo bucket= "s3://udapeople-${OldWorkflowID:10:17}"
               aws s3 rb "s3://udapeople-${OldWorkflowID:10:17}" --force
               aws cloudformation delete-stack --stack-name "udapeople-backend-${OldWorkflowID:10:17}"
               aws cloudformation delete-stack --stack-name "udapeople-frontend-${OldWorkflowID:10:17}"
             else
-              echo "nothing to clean up........."
+              echo "no action required"
             fi
 
 workflows:
