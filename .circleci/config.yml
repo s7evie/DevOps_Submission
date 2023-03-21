@@ -353,6 +353,8 @@ jobs:
             echo "Contents  of the inventory.txt file is as follows:"
             cat inventory.txt
             ansible-playbook -i inventory.txt deploy-backend.yml
+      - persist_to_workspace:
+         root: ~/
       # Here's where you will add some code to rollback on failures 
       - destroy_environment
       - revert_migrations
@@ -360,21 +362,17 @@ jobs:
   smoke-test:
     docker:
       # Lightweight Docker image 
-      - image: circleci/node:14.18.1
+      - image: python:3.11-rc-alpine
     steps:
       # Checkout code from git
       - checkout
+      # attach workspace
+      - attach_workspace:
+          at: ~/
       - run:
           name: Install dependencies
-          command: |                        
-            sudo apt-get update
-            sudo apt-get upgrade
-            sudo apt-get install npm -y 
-            sudo apt-get install nodejs -y
-            sudo apt-get install awscli -y
-            cd backend
-            npm install
-            npm run migrations:revert
+          command: |
+            apk add --update npm aws-cli curl
           #  exit 1.
       - run:
           name: Backend smoke test
