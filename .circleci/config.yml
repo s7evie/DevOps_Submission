@@ -47,9 +47,9 @@ commands:
   #           fi
 
   revert_migrations:
-      description: Revert the last migration
       docker:
-        - image: circleci/node:13.8.0
+      - image: circleci/node:13.8.0
+      description: Revert the last migration
       parameters:
           workflow_id:
               type: string      
@@ -59,7 +59,7 @@ commands:
               name: Revert migration
               when: on_fail
               command: |
-                      
+
                       cd ~/project/backend
                       npm i
                       npm run migrations:revert
