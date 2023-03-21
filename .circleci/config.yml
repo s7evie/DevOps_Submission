@@ -371,6 +371,7 @@ jobs:
             pwd
             ls -l
             cd backend
+            apt-get install -y awscli
             npm install
             npm run migrations:revert
           #  exit 1.
