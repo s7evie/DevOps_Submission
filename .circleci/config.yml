@@ -26,8 +26,6 @@ commands:
 
   revert_migrations:
     description: Revert last migration
-    steps:
-      - checkout
     parameters:
       workflow_id:
         type: string
