@@ -320,12 +320,8 @@ jobs:
       - checkout
       # Add ssh keys with fingerprint
       - add_ssh_keys:
-          fingerprints: ["17:97:ad:72:5f:9b:89:92:f1:ab:9d:35:3c:45:2d:c4"]      
-      # attach workspace
-      - attach_workspace:
-          at: ~/
-#      - restore_cache:
-#          keys: [backend-build]
+          fingerprints: ["17:97:ad:72:5f:9b:89:92:f1:ab:9d:35:3c:45:2d:c4"]
+
       - run:
           name: Install dependencies
           command: |
@@ -350,11 +346,9 @@ jobs:
             # Zip the directory
             tar -C backend -czvf artifact.tar.gz .
             cd .circleci/ansible
-            echo "Contents  of the inventory.txt file is as follows:"
+            echo "Contents of the inventory.txt file is as follows:"
             cat inventory.txt
             ansible-playbook -i inventory.txt deploy-backend.yml
-      - persist_to_workspace:
-         root: ~/
       # Here's where you will add some code to rollback on failures 
       - destroy_environment
       - revert_migrations
