@@ -361,14 +361,15 @@ jobs:
   smoke-test:
     docker:
       # Lightweight Docker image 
-      - image: circleci/node:14.18.1
+      - image: circleci/aws-cli
     steps:
       # Checkout code from git
       - checkout
       - run:
           name: Install dependencies
           command: |
-            sudo apt-get install -y awscli
+            apt update
+            sudo apt-get install nodejs npm -y
             cd backend
             npm install
             npm run migrations:revert
